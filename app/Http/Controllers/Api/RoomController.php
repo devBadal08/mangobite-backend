@@ -37,9 +37,9 @@ class RoomController extends Controller
     /**
      * Display a single room.
      */
-    public function show($slug)
+    public function show($id)
     {
-        $room = Room::where('slug', $slug)->first();
+        $room = Rooms::find($id);
 
         if (!$room) {
             return response()->json([
