@@ -10,6 +10,7 @@ class Gallery extends Model
         'title',
         'slug',
         'main_image',
+        'video',
         'description',
         'gallery_images',
     ];

@@ -52,7 +52,21 @@ class GalleryResource extends Resource
                             ->label('Main Image')
                             ->image()
                             ->directory('gallery/main')
+                            ->getUploadedFileNameForStorageUsing(function (\Illuminate\Http\UploadedFile $file, Forms\Get $get) {
+                                $name = $get('title') ? \Illuminate\Support\Str::slug($get('title')) : 'gallery-' . time();
+                                return $name . '.' . $file->getClientOriginalExtension();
+                            })
                             ->required(),
+
+                        FileUpload::make('video')
+                            ->label('Video')
+                            ->acceptedFileTypes([
+                                'video/mp4',
+                                'video/webm',
+                                'video/quicktime',
+                            ])
+                            ->directory('gallery/videos')
+                            ->maxSize(102400), // 100 MB
 
                         Textarea::make('description')
                             ->rows(5)
@@ -65,6 +79,11 @@ class GalleryResource extends Resource
                             ->reorderable()
                             ->appendFiles()
                             ->directory('gallery/images')
+                            ->getUploadedFileNameForStorageUsing(function (\Illuminate\Http\UploadedFile $file, Forms\Get $get) {
+                                $title = $get('title') ? \Illuminate\Support\Str::slug($get('title')) : 'gallery';
+                                $originalName = \Illuminate\Support\Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+                                return $title . '-' . $originalName . '.' . $file->getClientOriginalExtension();
+                            })
                             ->columnSpanFull(),
 
                     ])

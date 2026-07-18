@@ -32,6 +32,10 @@ class CategoryResource extends Resource
                     ->label('Category Image')
                     ->image()
                     ->directory('categories')
+                    ->getUploadedFileNameForStorageUsing(function (\Illuminate\Http\UploadedFile $file, Forms\Get $get) {
+                        $name = $get('name') ? \Illuminate\Support\Str::slug($get('name')) : 'category-' . time();
+                        return $name . '.' . $file->getClientOriginalExtension();
+                    })
                     ->required(),
             ]);
     }

@@ -49,6 +49,10 @@ class RoomResource extends Resource
                             ->image()
                             ->disk('public')
                             ->directory('rooms/main')
+                            ->getUploadedFileNameForStorageUsing(function (\Illuminate\Http\UploadedFile $file, Forms\Get $get) {
+                                $name = $get('title') ? \Illuminate\Support\Str::slug($get('title')) : 'room-' . time();
+                                return $name . '.' . $file->getClientOriginalExtension();
+                            })
                             ->required(),
 
                         RichEditor::make('description')
@@ -69,6 +73,11 @@ class RoomResource extends Resource
                             ->appendFiles()
                             ->disk('public')
                             ->directory('rooms/sub')
+                            ->getUploadedFileNameForStorageUsing(function (\Illuminate\Http\UploadedFile $file, Forms\Get $get) {
+                                $title = $get('title') ? \Illuminate\Support\Str::slug($get('title')) : 'room';
+                                $originalName = \Illuminate\Support\Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+                                return $title . '-' . $originalName . '.' . $file->getClientOriginalExtension();
+                            })
                             ->columnSpanFull(),
 
                     ])
