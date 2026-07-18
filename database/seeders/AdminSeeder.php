@@ -13,10 +13,12 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'mangobite@admin.com',
-            'password' => bcrypt('123456'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'mangobite@admin.com'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('123456'),
+            ]
+        );
     }
 }
