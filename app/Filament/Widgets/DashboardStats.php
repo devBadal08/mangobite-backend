@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Category;
+use App\Models\category;
 use App\Models\Contact;
 use App\Models\Gallery;
 use App\Models\Menu_item;
@@ -22,7 +22,7 @@ class DashboardStats extends StatsOverviewWidget
                 ->url(\App\Filament\Resources\GalleryResource::getUrl())
                 ->color('primary'),
 
-            Stat::make('Categories', Category::count())
+            Stat::make('Categories', category::count())
                 ->description('Menu Categories')
                 ->descriptionIcon('heroicon-m-squares-2x2')
                 ->url(\App\Filament\Resources\CategoryResource::getUrl())
